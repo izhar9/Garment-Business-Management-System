@@ -38,6 +38,10 @@ public class AuthService {
             throw new RuntimeException("Email already exists");
         }
 
+        if (authRepository.existsByMobileNo(registrationDto.getMobileNo())) {
+            throw new RuntimeException("Mobile number already exists");
+        }
+
         User user = new User();
 
         LocalDateTime now = LocalDateTime.now();
@@ -48,7 +52,8 @@ public class AuthService {
         user.setRole(role);
         user.setCreatedAt(now);
         user.setUpdatedAt(now);
-//        user.setActive(true);
+        user.setMobileNo(registrationDto.getMobileNo());
+        user.setActive(true);
         authRepository.save(user);
         return "Registration successfully";
     }

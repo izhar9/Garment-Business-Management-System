@@ -1,14 +1,14 @@
 package com.garment.garmentManagementSystem.repository;
 
 import com.garment.garmentManagementSystem.entity.User;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface AuthRepository extends MongoRepository<User, ObjectId> {
+public interface AuthRepository extends JpaRepository<User, Long> {
+
     Optional<User> findByUsername(String username);
 
     Optional<User> findByEmail(String email);
@@ -16,5 +16,6 @@ public interface AuthRepository extends MongoRepository<User, ObjectId> {
     boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);
+    boolean existsByMobileNo(String mobileNo);
 
 }
