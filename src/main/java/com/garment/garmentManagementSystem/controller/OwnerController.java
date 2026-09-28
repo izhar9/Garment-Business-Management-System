@@ -22,14 +22,12 @@ public class OwnerController {
     }
 
     @PostMapping
-    public ResponseEntity<String> registerOwner(
+    public String registerOwner(
             @Valid @RequestBody RegistrationDto dto
     ) {
 
         String message = ownerService.registerOwner(dto);
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(message);
+        return message;
     }
 }

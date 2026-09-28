@@ -21,14 +21,12 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<String> registerEmployee(
+    public String registerEmployee(
             @Valid @RequestBody RegistrationDto dto
     ) {
 
         String message = employeeService.registerEmployee(dto);
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(message);
+        return message;
     }
 }
