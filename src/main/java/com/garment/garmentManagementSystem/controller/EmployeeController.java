@@ -20,7 +20,7 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public String registerEmployee(
             @Valid @RequestBody RegistrationDto dto
     ) {

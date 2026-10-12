@@ -1,5 +1,6 @@
 package com.garment.garmentManagementSystem.dto;
 
+import com.garment.garmentManagementSystem.enums.EmployeeRole;
 import com.garment.garmentManagementSystem.enums.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -21,4 +22,6 @@ public class RegistrationDto {
     private String email;
 
     private Role role;
+    private EmployeeRole profession;
+    private String name;
 }

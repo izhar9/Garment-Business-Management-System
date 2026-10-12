@@ -90,10 +90,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers( "/api/auth/login", "/api/auth/register")
                         .permitAll()
-                        .requestMatchers("/api/owners/**")
+                        .requestMatchers("/api/app-owner/**")
                         .hasRole("APP_OWNER")
 
-                        .requestMatchers("/api/employees/**")
+                        .requestMatchers("/api/owners/**")
                         .hasRole("OWNER")
 
                         .anyRequest()
