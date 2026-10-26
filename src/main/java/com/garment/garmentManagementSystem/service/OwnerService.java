@@ -2,6 +2,7 @@ package com.garment.garmentManagementSystem.service;
 
 import com.garment.garmentManagementSystem.dto.EmployeesDetailsDto;
 import com.garment.garmentManagementSystem.dto.RegistrationDto;
+import com.garment.garmentManagementSystem.dto.RegistrationResponseDto;
 import com.garment.garmentManagementSystem.entity.Employee;
 import com.garment.garmentManagementSystem.entity.User;
 import com.garment.garmentManagementSystem.enums.Role;
@@ -27,7 +28,7 @@ public class OwnerService {
         this.employeeRepository = employeeRepository;
     }
 
-    public String registerOwner(RegistrationDto dto) {
+    public RegistrationResponseDto registerOwner(RegistrationDto dto) {
 
         return authService.createUser(
                 dto,

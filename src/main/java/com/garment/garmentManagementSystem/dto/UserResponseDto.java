@@ -3,7 +3,7 @@ package com.garment.garmentManagementSystem.dto;
 import com.garment.garmentManagementSystem.enums.Role;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Data
 public class UserResponseDto {
@@ -13,6 +13,6 @@ public class UserResponseDto {
     private String email;
     private String mobileNo;
     private Role role;
-    private LocalDateTime createdAt;
+    private Instant createdAt;
     private boolean active;
 }

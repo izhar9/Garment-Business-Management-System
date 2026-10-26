@@ -3,7 +3,10 @@ package com.garment.garmentManagementSystem.controller;
 
 import com.garment.garmentManagementSystem.dto.EmployeesDetailsDto;
 import com.garment.garmentManagementSystem.dto.RegistrationDto;
+import com.garment.garmentManagementSystem.dto.RegistrationResponseDto;
+import com.garment.garmentManagementSystem.response.ApiResponse;
 import com.garment.garmentManagementSystem.service.OwnerService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +25,20 @@ public class OwnerController {
     }
 
     @PostMapping("/register")
-    public String registerOwner(
-            @Valid @RequestBody RegistrationDto dto
+    public ResponseEntity<ApiResponse<RegistrationResponseDto>> registerOwner(
+            @Valid @RequestBody RegistrationDto dto,
+            HttpServletRequest request
     ) {
 
-        String message = ownerService.registerOwner(dto);
+        ApiResponse<RegistrationResponseDto> response = ApiResponse.success(
+                "Application employee registered successfully",
+                null,
+                request.getRequestURI()
+        );
 
-        return message;
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(response);
     }
 
     @GetMapping("/findEmployees")

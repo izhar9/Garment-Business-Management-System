@@ -2,18 +2,31 @@ package com.garment.garmentManagementSystem.entity;
 
 import com.garment.garmentManagementSystem.enums.Role;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(
         name = "users",
         uniqueConstraints = {
-                @UniqueConstraint(columnNames = "username"),
-                @UniqueConstraint(columnNames = "email")
+                @UniqueConstraint(
+                        name = "uk_users_username",
+                        columnNames = "username"
+                ),
+                @UniqueConstraint(
+                        name = "uk_users_email",
+                        columnNames = "email"
+                ),
+                @UniqueConstraint(
+                        name = "uk_users_mobile_no",
+                        columnNames = "mobile_no"
+                )
         }
 )
 public class User {
@@ -22,25 +35,47 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(
+            nullable = false,
+            length = 50
+    )
     private String username;
 
-    @Column(nullable = false)
+    @Column(
+            nullable = false
+    )
     private String password;
 
-    @Column(nullable = false, unique = true)
+    @Column(
+            nullable = false,
+            length = 20
+    )
     private String mobileNo;
 
-    @Column(nullable = false, unique = true)
+    @Column(
+            nullable = false,
+            length = 255
+    )
     private String email;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(
+            nullable = false,
+            length = 30
+    )
     private Role role;
 
-    private LocalDateTime createdAt;
+    @Column(
+            nullable = false,
+            updatable = false
+    )
+    private Instant createdAt;
 
-    private LocalDateTime updatedAt;
+    @Column(nullable = false)
+    private Instant updatedAt;
 
+    @Column(
+            nullable = false
+    )
     private boolean active;
 }

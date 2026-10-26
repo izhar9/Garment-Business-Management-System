@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 
 @Service
@@ -84,8 +85,8 @@ public class EmployeeService {
         user.setEmail(dto.getEmail());
         user.setMobileNo(dto.getMobileNo());
         user.setRole(Role.EMPLOYEE);
-        user.setCreatedAt(now);
-        user.setUpdatedAt(now);
+        user.setCreatedAt(Instant.now());
+        user.setUpdatedAt(Instant.now());
         user.setActive(true);
 
         User savedUser = authRepository.save(user);

@@ -3,14 +3,19 @@ package com.garment.garmentManagementSystem.service;
 import com.garment.garmentManagementSystem.dto.LoginDto;
 import com.garment.garmentManagementSystem.dto.LoginResponseDto;
 import com.garment.garmentManagementSystem.dto.RegistrationDto;
+import com.garment.garmentManagementSystem.dto.RegistrationResponseDto;
 import com.garment.garmentManagementSystem.entity.User;
 import com.garment.garmentManagementSystem.enums.Role;
+import com.garment.garmentManagementSystem.exception.EmailAlreadyExistsException;
+import com.garment.garmentManagementSystem.exception.MobileNumberAlreadyExistsException;
+import com.garment.garmentManagementSystem.exception.UsernameAlreadyExistsException;
 import com.garment.garmentManagementSystem.repository.AuthRepository;
 import com.garment.garmentManagementSystem.security.JwtService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Service
 public class AuthService {
@@ -29,33 +34,36 @@ public class AuthService {
         this.jwtService = jwtService;
     }
 
-    public String createUser(RegistrationDto registrationDto, Role role){
+    @Transactional
+    public RegistrationResponseDto createUser(RegistrationDto registrationDto, Role role){
         if (authRepository.existsByUsername(registrationDto.getUsername())) {
-            throw new RuntimeException("Username already exists");
+            throw new UsernameAlreadyExistsException(
+                    "Username already exists"
+            );
         }
 
         if (authRepository.existsByEmail(registrationDto.getEmail())) {
-            throw new RuntimeException("Email already exists");
+            throw new EmailAlreadyExistsException("Email already exists");
         }
 
         if (authRepository.existsByMobileNo(registrationDto.getMobileNo())) {
-            throw new RuntimeException("Mobile number already exists");
+            throw new MobileNumberAlreadyExistsException("Mobile number already exists");
         }
 
         User user = new User();
-
-        LocalDateTime now = LocalDateTime.now();
 
         user.setEmail(registrationDto.getEmail());
         user.setUsername(registrationDto.getUsername());
         user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
         user.setRole(role);
-        user.setCreatedAt(now);
-        user.setUpdatedAt(now);
+        user.setCreatedAt(Instant.now());
+        user.setUpdatedAt(Instant.now());
         user.setMobileNo(registrationDto.getMobileNo());
         user.setActive(true);
-        authRepository.save(user);
-        return "Registration successfully";
+        User savedUser = authRepository.save(user);
+        return new RegistrationResponseDto(
+                savedUser.getId()
+        );
     }
 
     public LoginResponseDto login(LoginDto dto) {
